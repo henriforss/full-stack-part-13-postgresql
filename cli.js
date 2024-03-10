@@ -1,3 +1,5 @@
+// Connect to the database, query the blogs table, and display the author, title, and likes of each blog.
+
 require("dotenv").config();
 const { Sequelize, QueryTypes } = require("sequelize");
 
