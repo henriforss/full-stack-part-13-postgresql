@@ -1,0 +1,16 @@
+GET http://localhost:3000/api/blogs
+
+###
+POST http://localhost:3000/api/blogs
+Content-Type: application/json
+
+{
+  "author": "Testi Testinen",
+  "url": "http://www.testi.fi",
+  "title": "My first blog"
+}
+
+###
+DELETE http://localhost:3000/api/blogs/9
+
+
