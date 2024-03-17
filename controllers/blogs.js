@@ -1,17 +1,26 @@
 const router = require("express").Router();
 
-const { Blog } = require("../models"); // This will pick up index.js by default
+const { Blog, User } = require("../models"); // This will pick up index.js by default
+
+const tokenExtractor = require("../middleware/tokenExtractor");
 
 // Get all
 router.get("/", async (req, res) => {
-  const notes = await Blog.findAll();
+  const notes = await Blog.findAll({
+    attributes: { exclude: ["userId"] },
+    include: {
+      model: User,
+      attributes: ["name"],
+    },
+  });
   res.json(notes);
 });
 
 // Create new
-router.post("/", async (req, res, next) => {
+router.post("/", tokenExtractor, async (req, res, next) => {
   try {
-    const blog = await Blog.create(req.body);
+    const user = await User.findOne({ where: { id: req.decodedToken.id } });
+    const blog = await Blog.create({ ...req.body, userId: user.id });
     return res.json(blog);
   } catch (error) {
     next(error); // Centralized error handling
@@ -19,9 +28,9 @@ router.post("/", async (req, res, next) => {
 });
 
 // Delete
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", tokenExtractor, async (req, res) => {
   const blog = await Blog.findByPk(req.params.id);
-  if (blog) {
+  if (blog && blog.userId === req.decodedToken.id) {
     await blog.destroy();
     res.status(204).end();
   } else {
