@@ -26,7 +26,7 @@ router.get("/", async (req, res) => {
     attributes: { exclude: ["userId"] },
     include: {
       model: User,
-      attributes: ["name"],
+      attributes: ["name", "username"],
     },
     where,
   });
@@ -35,6 +35,8 @@ router.get("/", async (req, res) => {
 
 // Create new
 router.post("/", tokenExtractor, async (req, res, next) => {
+  console.log(req.body);
+
   try {
     const user = await User.findOne({ where: { id: req.decodedToken.id } });
     const blog = await Blog.create({ ...req.body, userId: user.id });
