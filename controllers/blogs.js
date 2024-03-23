@@ -1,19 +1,36 @@
 const router = require("express").Router();
-
 const { Blog, User } = require("../models"); // This will pick up index.js by default
-
 const tokenExtractor = require("../middleware/tokenExtractor");
+const { Op } = require("sequelize");
 
 // Get all
 router.get("/", async (req, res) => {
-  const notes = await Blog.findAll({
+  const where = {};
+
+  if (req.query.search) {
+    where[Op.or] = [
+      {
+        title: {
+          [Op.iLike]: "%" + req.query.search + "%",
+        },
+      },
+      {
+        author: {
+          [Op.iLike]: "%" + req.query.search + "%",
+        },
+      },
+    ];
+  }
+
+  const blogs = await Blog.findAll({
     attributes: { exclude: ["userId"] },
     include: {
       model: User,
       attributes: ["name"],
     },
+    where,
   });
-  res.json(notes);
+  res.json(blogs);
 });
 
 // Create new
@@ -55,3 +72,28 @@ router.put("/:id", async (req, res, next) => {
 });
 
 module.exports = router;
+
+// Get authors and sort by number of blogs
+router.get("/api/authors", async (req, res) => {
+  const authors = await User.findAll({
+    attributes: [
+      "name",
+      [Sequelize.fn("COUNT", Sequelize.col("Blogs.id")), "articles"],
+      [Sequelize.fn("SUM", Sequelize.col("Blogs.likes")), "likes"],
+    ],
+    include: {
+      model: Blog,
+      attributes: [],
+    },
+    group: ["User.id"],
+    order: [[Sequelize.literal("likes"), "DESC"]],
+  });
+
+  const formattedAuthors = authors.map((author) => ({
+    author: author.name,
+    articles: author.getDataValue("articles"),
+    likes: author.getDataValue("likes") || 0,
+  }));
+
+  res.json(formattedAuthors);
+});

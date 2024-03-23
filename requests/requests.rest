@@ -97,14 +97,20 @@ Content-Type: application/json
 ### Create blog with authorization
 POST http://localhost:3000/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp1dXNlcmkyIiwiaWQiOjIsImlhdCI6MTcxMDY2NDgyOX0.0coWASfhhsiOTx4PHMN6VWMhZv1NnrGNvSDUijbrdio
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InV1dXNlcmkiLCJpZCI6MSwiaWF0IjoxNzExMTc5ODg5fQ.3BTTWTHdNk7c9xO6SF4k3Q29tt9JfxmR6sIAPDpSa_Y
   
 {
-  "author": "Testi Testinen",
+  "author": "Moikka Moi",
   "url": "http://www.testi.fi",
   "title": "My first blog"
 }
 
 ### Delete blog with authorization
-DELETE http://localhost:3000/api/blogs/16
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InV1dXNlcmkiLCJpZCI6MSwiaWF0IjoxNzEwNjY1MTk0fQ.oZWbW7aNCs_z2srG2rmRRcN6_lEDxtGOVsM-yW3zUMo
+DELETE http://localhost:3000/api/blogs/21
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InV1dXNlcmkiLCJpZCI6MSwiaWF0IjoxNzExMTc5ODg5fQ.3BTTWTHdNk7c9xO6SF4k3Q29tt9JfxmR6sIAPDpSa_Y
+
+### Get all with query (case insensitive)
+GET http://localhost:3000/api/blogs?search=testi
+
+### Get all authors
+GET http://localhost:3000/api/authors
