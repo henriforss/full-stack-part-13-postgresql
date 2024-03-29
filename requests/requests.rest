@@ -42,6 +42,7 @@ Content-Type: application/json
 ### Get users
 GET http://localhost:3000/api/users
 
+
 ### Create user (old)
 POST http://localhost:3000/api/users
 Content-Type: application/json
@@ -116,8 +117,7 @@ Content-Type: application/json
 ### Create blog with authorization
 POST http://localhost:3000/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp1dXNlcmlAanV1c28uY29tIiwiaWQiOjIsImlhdCI6MTcxMTcwNzYyNH0.Y1Qrc4j0dFnYG2vSlOsJhvGuExVnMcJLbpMUuWkJUE8
-  
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp1dXNlcmlAanV1c28uY29tIiwiaWQiOjIsImlhdCI6MTcxMTcxOTg2NH0.cwvin3ZSKhXi0mg6Rx8lNSFu4YRCJQThJSGCjRxLzbs  
 {
   "author": "Morjens!",
   "url": "http://www.testi.fi",
@@ -140,20 +140,27 @@ POST http://localhost:3000/api/readinglists
 Content-Type: application/json
 
 {
-  "blogId": 4,
-  "userId": 2
+  "blogId": 1,
+  "userId": 1
 }
 
 ### Get single user
-GET http://localhost:3000/api/users/2?read=false
+GET http://localhost:3000/api/users/1
+
+### Get single user reading list
+GET http://localhost:3000/api/users/1?read=false
 
 
 ### Mark blog as read
-PUT http://localhost:3000/api/readinglists/7
+PUT http://localhost:3000/api/readinglists/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp1dXNlcmlAanV1c28uY29tIiwiaWQiOjIsImlhdCI6MTcxMTcwNzYyNH0.Y1Qrc4j0dFnYG2vSlOsJhvGuExVnMcJLbpMUuWkJUE8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJAdXNlci5jb20iLCJpZCI6MSwiaWF0IjoxNzExNzE3OTk5fQ.WZn6rYkMaxMnTO3L0tYXuRlrbiktOAz4Kd1lN6dpkv8
+
 
 {
   "read": true
 }
 
+### Logout user
+DELETE http://localhost:3000/api/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJAdXNlci5jb20iLCJpZCI6MSwiaWF0IjoxNzExNzIwMDkxfQ.Z_0ATtoxZoVEBVPRQY6rf-uwP3dIq_Wm1gVcO_U5BGM
