@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const { User, Blog } = require("../models"); // This will pick up index.js by default
+const { User, Blog, ReadingLists } = require("../models"); // This will pick up index.js by default
 
 // Get all
 router.get("/", async (req, res) => {
@@ -34,6 +34,35 @@ router.put("/:username", async (req, res, next) => {
   } else {
     res.status(404).end();
   }
+});
+
+// Get single user
+router.get("/:id", async (req, res) => {
+  const where = {};
+
+  if (req.query.read) {
+    console.log(req.query.read);
+
+    where.read = req.query.read === "true";
+  }
+
+  console.log(where);
+
+  const user = await User.findByPk(req.params.id, {
+    include: [
+      { model: Blog, attributes: { exclude: ["userId"] } },
+      {
+        model: Blog,
+        as: "readings",
+        attributes: { exclude: ["userId", "createdAt", "updatedAt"] },
+        through: {
+          attributes: ["id", "read"],
+          where,
+        },
+      },
+    ],
+  });
+  res.json(user);
 });
 
 module.exports = router;

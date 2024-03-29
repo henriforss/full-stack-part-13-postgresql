@@ -39,15 +39,15 @@ module.exports = {
       defaultValue: DataTypes.NOW,
     });
 
-    // // Add year written
-    // await queryInterface.addColumn("blogs", "year", {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    //   validate: {
-    //     min: 1991,
-    //     max: new Date().getFullYear(),
-    //   },
-    // });
+    // Add year written
+    await queryInterface.addColumn("blogs", "year", {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        min: 1991,
+        max: new Date().getFullYear(),
+      },
+    });
 
     // Create users table
     await queryInterface.createTable("users", {

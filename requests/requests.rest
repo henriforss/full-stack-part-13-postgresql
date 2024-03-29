@@ -95,16 +95,34 @@ Content-Type: application/json
   "username": "user@user.com" 
 }
 
+### Create second user with validation
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+  "name": "Juusi Juuseri",
+  "username": "juuseri@juuso.com"
+}
+
+### Login second user
+POST http://localhost:3000/api/login
+Content-Type: application/json
+
+{
+  "username": "juuseri@juuso.com",
+  "password": "secret"
+}
+
 ### Create blog with authorization
 POST http://localhost:3000/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJAdXNlci5jb20iLCJpZCI6MSwiaWF0IjoxNzExMjAyMTc3fQ.SI6ChsbhofBgnuUaT-QygazqVYd6P0wL58OiZ2ZkDMw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp1dXNlcmlAanV1c28uY29tIiwiaWQiOjIsImlhdCI6MTcxMTcwNzYyNH0.Y1Qrc4j0dFnYG2vSlOsJhvGuExVnMcJLbpMUuWkJUE8
   
 {
-  "author": "Heippa hei",
+  "author": "Morjens!",
   "url": "http://www.testi.fi",
   "title": "My first blog",
-  "year": 20
+  "year": 2001
 }
 
 ### Delete blog with authorization
@@ -116,3 +134,26 @@ GET http://localhost:3000/api/blogs?search=testi
 
 ### Get all authors
 GET http://localhost:3000/api/authors
+
+### Add blog to reading list
+POST http://localhost:3000/api/readinglists
+Content-Type: application/json
+
+{
+  "blogId": 4,
+  "userId": 2
+}
+
+### Get single user
+GET http://localhost:3000/api/users/2?read=false
+
+
+### Mark blog as read
+PUT http://localhost:3000/api/readinglists/7
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imp1dXNlcmlAanV1c28uY29tIiwiaWQiOjIsImlhdCI6MTcxMTcwNzYyNH0.Y1Qrc4j0dFnYG2vSlOsJhvGuExVnMcJLbpMUuWkJUE8
+
+{
+  "read": true
+}
+
